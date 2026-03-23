@@ -10,6 +10,7 @@ import sys
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    font = pygame.font.Font(None, 36)
     dt = 0
     #clock for fps
     clock = pygame.time.Clock()
@@ -28,6 +29,8 @@ def main():
     #init player in the middle of screen
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
     asteroidField = AsteroidField()
+
+    score = 0
 
 
     while True:
@@ -56,18 +59,19 @@ def main():
             for shot in shots:
                 if asteroid.collides_with(shot):
                     shot.kill()
-                    asteroid.split()
+                    score += asteroid.split()
                     log_event("asteroid_shot")
+
+                
     
 
         for thing in drawable:
             thing.draw(screen)
 
+        text = font.render("SCORE: " + str(score), 1, 'white')
+        screen.blit(text, (10, 10))
         pygame.display.flip()
 
-    print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
 
 
 if __name__ == "__main__":
